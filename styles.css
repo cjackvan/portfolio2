@@ -40,12 +40,47 @@ a {
   z-index: 10;
 }
 
+.contact-trigger {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .contact p {
   margin: 0;
 }
 
 .contact .spacer {
   height: 1.35em;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.contact-detail[hidden] {
+  display: none;
+}
+
+.contact-blurb p {
+  margin: 0 0 0.75rem;
+}
+
+.contact-blurb p:last-child {
+  margin-bottom: 0;
+}
+
+.contact-blurb a {
+  color: #00e;
+  text-decoration: underline;
 }
 
 .gallery {
@@ -129,6 +164,11 @@ body.is-detail-view .contact {
   z-index: 10;
 }
 
+body.is-contact-detail .gallery .project {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 @media (min-width: 901px) {
   html,
   body {
@@ -149,6 +189,19 @@ body.is-detail-view .contact {
   .project-detail.blurb-right {
     left: calc(100% + 1.5rem);
     right: auto;
+  }
+
+  .contact.is-active .contact-detail {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 1.5rem);
+    width: var(--blurb-width);
+  }
+
+  .contact-blurb {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.5;
   }
 
   .project-rubber-match {
@@ -289,5 +342,24 @@ body.is-detail-view .contact {
   .gallery.is-detail-view .project.is-active .project-detail.blurb-left,
   .gallery.is-detail-view .project.is-active .project-detail.blurb-right {
     right: auto;
+  }
+
+  .contact.is-active .contact-detail {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: min(calc(100vw - 3rem), 420px);
+    margin-top: 0.75rem;
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    z-index: 11;
+  }
+
+  .contact-blurb {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.5;
   }
 }
