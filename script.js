@@ -1,4 +1,8 @@
 const gallery = document.querySelector(".gallery");
+const contact = document.querySelector(".contact");
+const contactTrigger = document.querySelector(".contact-trigger");
+const contactDetail = document.querySelector(".contact-detail");
+const contactBackButton = contactDetail.querySelector(".back-button");
 const projects = document.querySelectorAll(".project");
 const desktopQuery = window.matchMedia("(min-width: 901px)");
 
@@ -14,7 +18,7 @@ projects.forEach((project) => {
     }
 
     event.stopPropagation();
-    openDetail(project, detail);
+    openProjectDetail(project, detail);
   });
 
   backButton.addEventListener("click", (event) => {
@@ -33,6 +37,31 @@ projects.forEach((project) => {
   });
 });
 
+contactTrigger.addEventListener("click", (event) => {
+  if (contact.classList.contains("is-active") && gallery.classList.contains("is-detail-view")) {
+    closeDetail();
+    return;
+  }
+
+  event.stopPropagation();
+  openContactDetail();
+});
+
+contactBackButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  closeDetail();
+});
+
+contactDetail.addEventListener("click", () => {
+  if (desktopQuery.matches) {
+    return;
+  }
+
+  if (contact.classList.contains("is-active") && gallery.classList.contains("is-detail-view")) {
+    closeDetail();
+  }
+});
+
 document.body.addEventListener("click", () => {
   if (!desktopQuery.matches || !gallery.classList.contains("is-detail-view")) {
     return;
@@ -41,24 +70,32 @@ document.body.addEventListener("click", () => {
   closeDetail();
 });
 
-function openDetail(project, detail) {
+function openProjectDetail(project, detail) {
+  closeDetail();
+
   gallery.classList.add("is-detail-view");
   document.body.classList.add("is-detail-view");
-
-  projects.forEach((item) => {
-    item.classList.remove("is-active");
-    item.querySelector(".project-detail").hidden = true;
-    resetBlurbSide(item.querySelector(".project-detail"));
-  });
 
   project.classList.add("is-active");
   detail.hidden = false;
   positionBlurbSide(project, detail);
 }
 
+function openContactDetail() {
+  closeDetail();
+
+  gallery.classList.add("is-detail-view");
+  document.body.classList.add("is-detail-view", "is-contact-detail");
+  contact.classList.add("is-active");
+  contactDetail.hidden = false;
+}
+
 function closeDetail() {
   gallery.classList.remove("is-detail-view");
-  document.body.classList.remove("is-detail-view");
+  document.body.classList.remove("is-detail-view", "is-contact-detail");
+
+  contact.classList.remove("is-active");
+  contactDetail.hidden = true;
 
   projects.forEach((project) => {
     project.classList.remove("is-active");
